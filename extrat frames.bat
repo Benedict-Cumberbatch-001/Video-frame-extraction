@@ -18,7 +18,7 @@ REM 创建新的文件夹
 mkdir "!output_folder!"
 
 REM 使用ffmpeg抽取帧
-ffmpeg -i "!video_file!" -vf fps=!frames! "!output_folder!\frame%%03d.jpg"
+ffmpeg -i "!video_file!" -vf fps=!frames! "!output_folder!\frame%%03d.png"
 
 echo 抽帧完成，帧图像存放在: !output_folder!
 pause
