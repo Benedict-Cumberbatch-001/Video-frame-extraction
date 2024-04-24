@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 > nul
 setlocal enabledelayedexpansion
-
+echo 欢迎使用视频帧抽取工具！有问题请咨询咸鱼客服~
 REM 提示用户输入每秒抽取的帧数
 set /p "frames=please input number of frames of onsecond: "
 
