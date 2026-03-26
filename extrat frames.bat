@@ -1,24 +1,46 @@
 @echo off
-chcp 65001 > nul
 setlocal enabledelayedexpansion
-echo æ¬¢è¿ä½¿ç”¨è§†é¢‘å¸§æŠ½å–å·¥å…·ï¼æœ‰é—®é¢˜è¯·å’¨è¯¢å’¸é±¼å®¢æœ~
-REM æç¤ºç”¨æˆ·è¾“å…¥æ¯ç§’æŠ½å–çš„å¸§æ•°
-set /p "frames=please input number of frames of onsecond: "
 
-REM æç¤ºç”¨æˆ·æ‹–å…¥è§†é¢‘æ–‡ä»¶
-set /p "video_file=è¯·å°†è§†é¢‘æ–‡ä»¶æ‹–å…¥è¿™ä¸ªçª—å£: "
+echo ==================================================
+echo   »¶Ó­Ê¹ÓÃÊÓÆµÖ¡³éÈ¡¹¤¾ß£¡ÓĞÈÎºÎÎÊÌâÇë×ÉÑ¯ÏÌÓã¿Í·ş~
+echo ==================================================
 
-REM åˆ›å»ºå­˜æ”¾å¸§çš„æ–‡ä»¶å¤¹
-set "output_folder=%~n1_frames"
+REM 1. »ñÈ¡³éÖ¡ÆµÂÊ
+set /p "frames=ÇëÊäÈëÃ¿Ãë³éÈ¡µÄÖ¡Êı (ÀıÈç 1 »ò 0.5): "
 
-REM åˆ é™¤å·²æœ‰çš„æ–‡ä»¶å¤¹
-rmdir /s /q "!output_folder!" 2>nul
+REM 2. »ñÈ¡ÎÄ¼şÂ·¾¶
+set "video_input="
+set /p "video_input=Çë½«ÊÓÆµÎÄ¼şÍÏÈë´Ë´°¿Ú²¢°´»Ø³µ: "
 
-REM åˆ›å»ºæ–°çš„æ–‡ä»¶å¤¹
+REM Èç¹ûÓÃ»§Ã»ÓĞÊäÈë£¬Ö±½ÓÍË³ö
+if "!video_input!"=="" (
+    echo [´íÎó] Î´¼ì²âµ½ÎÄ¼şÂ·¾¶£¡
+    pause
+    exit
+)
+
+REM ÇåÀíÂ·¾¶ÖĞµÄË«ÒıºÅ
+set "video_file=!video_input:"=!"
+
+REM 3. ÌáÈ¡ÎÄ¼şÃû×÷ÎªÎÄ¼ş¼ĞÃû
+for %%A in ("!video_file!") do (
+    set "file_name=%%~nA"
+)
+set "output_folder=!file_name!_frames"
+
+REM 4. ×¼±¸´æ·ÅÄ¿Â¼
+if exist "!output_folder!" (
+    rmdir /s /q "!output_folder!"
+)
 mkdir "!output_folder!"
 
-REM ä½¿ç”¨ffmpegæŠ½å–å¸§
-ffmpeg -i "!video_file!" -vf fps=!frames! "!output_folder!\frame%%03d.png"
+REM 5. µ÷ÓÃ FFmpeg
+echo.
+echo ÕıÔÚ³éÈ¡ [!file_name!] µÄÖ¡£¬ÇëÉÔºò...
+ffmpeg -i "!video_file!" -vf "fps=!frames!" "!output_folder!\frame%%03d.png"
 
-echo æŠ½å¸§å®Œæˆï¼Œå¸§å›¾åƒå­˜æ”¾åœ¨: !output_folder!
+echo.
+echo ==================================================
+echo   ´¦ÀíÍê³É£¡Í¼Ïñ´æ·ÅÔÚ: !output_folder!
+echo ==================================================
 pause
